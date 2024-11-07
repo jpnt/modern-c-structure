@@ -1,39 +1,42 @@
+# Environment settings
+MESON ?= muon
+NINJA ?= samu
+PKG_CONFIG ?= pkgconf
+CXX ?= g++
+CC ?= gcc
+CC_LD ?= mold
+
+# Project settings
 BUILD_DIR = build
-CONAN_CMD = conan install . --output-folder=$(BUILD_DIR) --build=missing
-MESON_SETUP_CMD = meson setup $(BUILD_DIR) --native-file nativefile.ini
-MESON_BUILD_CMD = meson compile -C $(BUILD_DIR)
-MESON_TEST_CMD = meson test -C $(BUILD_DIR)
-EXECUTABLE = $(BUILD_DIR)/project_name_executable
+SETUP_CMD = $(MESON) setup $(BUILD_DIR)
+BUILD_CMD = $(NINJA) -C $(BUILD_DIR)
+TEST_CMD =
 
-# Environment Settings
-export CXX = g++
-export CC = gcc
-export LD = mold
-export PKG_CONFIG_PATH = $(BUILD_DIR) # Path to locate .pc files
+EXE = my_project
+SRC = ${EXE}.c
+OBJ = ${SRC:.c=.o}
 
-.PHONY: all install_deps configure build run test clean docs
+all: build run
 
-all: install_deps configure build
+deps:
+	@echo "Installing dependencies..."
+	# TODO
 
-install_deps:
-	@echo "Installing dependencies with Conan..."
-	$(CONAN_CMD)
-
-configure: install_deps
-	@echo "Configuring the project with Meson..."
-	$(MESON_SETUP_CMD)
+configure:
+	@echo "Configuring project..."
+	$(SETUP_CMD)
 
 build: configure
-	@echo "Building the project..."
-	$(MESON_BUILD_CMD)
+	@echo "Building project..."
+	$(BUILD_CMD)
 
 run: build
-	@echo "Running the executable..."
-	$(EXECUTABLE)
+	@echo "Running executable..."
+	./build/src/$(EXE)
 
 test: build
 	@echo "Running tests..."
-	$(MESON_TEST_CMD)
+	$(TEST_CMD)
 
 docs:
 	@echo "Generating documentation..."
@@ -45,3 +48,10 @@ clean:
 	rm -rf docs
 
 rebuild: clean all
+
+lint:
+	@echo "Formatting and performing static analyze..."
+	@muon fmt
+	@muon analyze
+
+.PHONY: all configure build run test clean docs rebuild lint
