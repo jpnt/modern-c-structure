@@ -7,5 +7,9 @@ project('my_project', 'c',
 zlib_dep = dependency('zlib')
 # zlib_dep = dependency('zlib', version : '<=1.2.13')
 
+opengl_dep = dependency('gl')
+glu_dep = dependency('glu')
+glfw_dep = dependency('glfw3')
+
 subdir('src')
 # subdir('tests')

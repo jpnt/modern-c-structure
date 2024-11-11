@@ -11,11 +11,13 @@
     in pkgs.mkShell rec {
       buildInputs = [
         pkgs.gcc
-        pkgs.zlib
         pkgs.meson
         pkgs.mold
         pkgs.samurai
         pkgs.pkgconf
+        pkgs.zlib
+        pkgs.libGLU
+        pkgs.glfw
       ];
 
       shellHook = ''

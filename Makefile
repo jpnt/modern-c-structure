@@ -28,7 +28,7 @@ OBJ = $(patsubst %.c,%.o,$(SRC))
 
 .PHONY: all options setup build run tests clean docs rebuild cppcheck valgrind install uninstall
 
-all: options build run
+all: options build
 
 options:
 	@echo MESON=$(MESON)
