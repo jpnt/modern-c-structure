@@ -1,5 +1,12 @@
 # Modern C/C++ Project Structure
 
+## Running Project
+
+```sh
+$ nix develop
+$ make
+```
+
 ## Software Stack
 - C/C++ Compiler: gcc/clang
 - C/C++ Linker: mold/gld/gold/lld
